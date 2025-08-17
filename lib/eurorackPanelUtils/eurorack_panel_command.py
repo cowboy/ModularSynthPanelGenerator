@@ -113,22 +113,26 @@ def initializeInputs():
   global INPUTS
   defaultLengthUnits = app.activeProduct.unitsManager.defaultLengthUnits
 
-  message = 'For more information, <a href="https://github.com/">click here.</a>'
-  INPUTS.addTextBoxCommandInput('textBox', 'Information', message, 1, True)            
+  message = 'For more information, <a href="https://github.com/cowboy/fusion-eurorack-panel-generator#eurorack-panel-generator">read the documentation.</a>'
+  INPUTS.addTextBoxCommandInput('infoTextBox', 'Information', message, 1, True)            
 
   heightDropdown = INPUTS.addDropDownCommandInput('formatType', 'Panel format', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
   for name in OPTIONS.formatNames:
-      heightDropdown.listItems.add(name, name == OPTIONS.formatName)
+    heightDropdown.listItems.add(name, name == OPTIONS.formatName)
 
   INPUTS.addIntegerSpinnerCommandInput('widthInHp', 'Panel width in HP', 2, 9000, 1, OPTIONS.widthInHp)
   INPUTS.addValueInput('panelHeight', 'Panel thickness', defaultLengthUnits, adsk.core.ValueInput.createByReal(OPTIONS.panelHeight))
 
+  anchorPointDropdown = INPUTS.addDropDownCommandInput('anchorPoint', 'Anchor point', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
+  for name in OPTIONS.anchorPointNames:
+    anchorPointDropdown.listItems.add(name, name == OPTIONS.anchorPointName)
+
   supportGroup = INPUTS.addGroupCommandInput('supportGroup', 'Reinforcement')
   supportGroup.isExpanded = True
 
-  supportDropdown = supportGroup.children.addDropDownCommandInput('supportType', 'Type', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
+  supportTypeDropdown = supportGroup.children.addDropDownCommandInput('supportType', 'Type', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
   for name in OPTIONS.supportTypeNames:
-      supportDropdown.listItems.add(name, name == OPTIONS.supportTypeName)
+    supportTypeDropdown.listItems.add(name, name == OPTIONS.supportTypeName)
   
   supportGroup.children.addValueInput('supportSolidHeight', 'Support thickness', defaultLengthUnits, adsk.core.ValueInput.createByReal(OPTIONS.supportSolidHeight))
   supportGroup.children.addValueInput('supportShellHeight', 'Shell thickness', defaultLengthUnits, adsk.core.ValueInput.createByReal(OPTIONS.supportShellHeight))
@@ -144,6 +148,10 @@ def initializeInputs():
   saveDefaultsInput.text = 'Save current panel settings as new defaults'
   eraseDefaultsInput = persistGroup.children.addBoolValueInput('eraseDefaults', 'Factory reset', False, '', False)
   eraseDefaultsInput.text = 'Erase saved panel settings defaults'
+
+  message = 'Does this add-in save you time? Say thanks by <a href="https://buymeacoffee.com/benalman">buying me a coffee.</a>'
+  coffeeTextBox = INPUTS.addTextBoxCommandInput('coffeeTextBox', 'Thanks', message, 1, True)
+  coffeeTextBox.isFullWidth = True
 
 def enableDisableInputs():
   global INPUTS
@@ -169,6 +177,9 @@ def updateOptionsFromInputs():
     panelHeight: adsk.core.addValueInput = INPUTS.itemById('panelHeight') # type: ignore
     OPTIONS.panelHeight = panelHeight.value
 
+    anchorPoint: adsk.core.DropDownCommandInput = INPUTS.itemById('anchorPoint') # type: ignore
+    OPTIONS.anchorPointName = anchorPoint.selectedItem.name
+
     supportType: adsk.core.DropDownCommandInput = INPUTS.itemById('supportType') # type: ignore
     OPTIONS.supportTypeName = supportType.selectedItem.name
 
@@ -193,6 +204,10 @@ def updateInputsFromOptions():
 
     panelHeight: adsk.core.addValueInput = INPUTS.itemById('panelHeight') # type: ignore
     panelHeight.value = OPTIONS.panelHeight
+
+    anchorPoint: adsk.core.DropDownCommandInput = INPUTS.itemById('anchorPoint') # type: ignore
+    for listItem in anchorPoint.listItems:
+        listItem.isSelected = listItem.name == OPTIONS.anchorPointName
 
     supportType: adsk.core.DropDownCommandInput = INPUTS.itemById('supportType') # type: ignore
     for listItem in supportType.listItems:

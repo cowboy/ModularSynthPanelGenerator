@@ -24,15 +24,43 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
   sketch.areDimensionsShown = True
 
   # Panel
-  rectangleLines = sketchRectangle(sketch, point(0, 0), opts.width, opts.length)
+  match opts.anchorPoint:
+    case 'top-left':
+      panelStartPoint = point(0, -opts.length)
+    case 'top-right':
+      panelStartPoint = point(-opts.width, -opts.length)
+    case 'bottom-left':
+      panelStartPoint = point(0, 0)
+    case 'bottom-right':
+      panelStartPoint = point(-opts.width, 0)
+    case _:
+      raise ValueError('Invalid anchorPoint value')
+
+  rectangleLines = sketchRectangle(sketch, panelStartPoint, opts.width, opts.length)
   constrainRectangleWidthHeight(sketch, rectangleLines)
   dimensions.item(dimensions.count - 2).parameter.expression = opts.widthAsExpression
+  
   panelBottomLine = rectangleLines.item(0)
   panelRightLine = rectangleLines.item(1)
   panelTopLine = rectangleLines.item(2)
   panelLeftLine = rectangleLines.item(3)
-  rectOriginSketchPoint = panelBottomLine.startSketchPoint
-  constrainPointToPoint(sketch, rectOriginSketchPoint, sketch.originPoint)
+
+  topLeftPoint = panelTopLine.endSketchPoint
+  topRightPoint = panelTopLine.startSketchPoint
+  bottomLeftPoint = panelBottomLine.startSketchPoint
+  bottomRightPoint = panelBottomLine.endSketchPoint
+
+  match opts.anchorPoint:
+    case 'top-left':
+      anchorPoint = topLeftPoint
+    case 'top-right':
+      anchorPoint = topRightPoint
+    case 'bottom-left':
+      anchorPoint = bottomLeftPoint
+    case 'bottom-right':
+      anchorPoint = bottomRightPoint
+
+  constrainPointToPoint(sketch, anchorPoint, sketch.originPoint)
 
   # Max extents for anything extruded from the bottom
   def addRefLine(panelLine: adsk.fusion.SketchLine, offset: float):
@@ -56,7 +84,7 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
   bottomRefLine = addRefLine(panelBottomLine, opts.railLength)
 
   if opts.supportType == 'shell':
-    shellRectLines = sketchRectangle(sketch, point(0, opts.railLength), opts.width, opts.length - (2 * opts.railLength), offset=opts.supportShellWallThickness)
+    shellRectLines = sketchRectangle(sketch, bottomRefLine.startSketchPoint.geometry, opts.width, opts.length - (2 * opts.railLength), offset=opts.supportShellWallThickness)
     shellBottomLine = shellRectLines.item(0)
     shellRightLine = shellRectLines.item(1)
     shellTopLine = shellRectLines.item(2)
@@ -75,14 +103,14 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
     slotsRight = False
 
   if (slotsLeft):
-    slots.append([rectOriginSketchPoint, 1, 1])
-    slots.append([rectangleLines.item(2).endSketchPoint, -1, 1])
+    slots.append([topLeftPoint, -1, 1])
+    slots.append([bottomLeftPoint, 1, 1])
 
   if (slotsRight):
-    slots.append([rectangleLines.item(1).endSketchPoint, -1, -1])
-    slots.append([rectangleLines.item(0).endSketchPoint, 1, -1])
+    slots.append([topRightPoint, -1, -1])
+    slots.append([bottomRightPoint, 1, -1])
 
-  slotFaces = 4 * len(slots)
+  slotFaceCount = 4 * len(slots)
 
   for referencePoint, yOffsetDirection, xOffsetDirection in slots:
     slotStartPoint = addPoints(referencePoint.geometry, point(xOffsetDirection * opts.slotOffsetX, yOffsetDirection * opts.slotOffsetY))
@@ -90,13 +118,15 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
     slotCenterLine = sketchSlot(sketch, slotStartPoint, slotEndPoint, opts.slotDiameter)[0]
     constrainPointToPoint(sketch, slotCenterLine.startSketchPoint, referencePoint)
 
+  # return
+
   # Extrusions
   if opts.supportType == 'solid':
     body1 = extrude(component, sketch, [0, 1, 2], -opts.panelHeight, "Panel")
-    body = extrude(component, sketch, [1], -opts.supportSolidHeight, "Support", offsetFrom=body1.faces.item(5 + slotFaces), operation=adsk.fusion.FeatureOperations.JoinFeatureOperation) # type: ignore
+    body = extrude(component, sketch, [1], -opts.supportSolidHeight, "Support", offsetFrom=body1.faces.item(5 + slotFaceCount), operation=adsk.fusion.FeatureOperations.JoinFeatureOperation) # type: ignore
   elif opts.supportType == 'shell':
     body1 = extrude(component, sketch, [0, 1, 2, 3], -opts.panelHeight, "Panel")
-    body = extrude(component, sketch, [1], -opts.supportShellHeight, "Support Shell", offsetFrom=body1.faces.item(5 + slotFaces), operation=adsk.fusion.FeatureOperations.JoinFeatureOperation) # type: ignore
+    body = extrude(component, sketch, [1], -opts.supportShellHeight, "Support Shell", offsetFrom=body1.faces.item(5 + slotFaceCount), operation=adsk.fusion.FeatureOperations.JoinFeatureOperation) # type: ignore
   else:
     body = extrude(component, sketch, [0], -opts.panelHeight, "Panel")
 

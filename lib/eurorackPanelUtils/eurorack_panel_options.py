@@ -14,6 +14,12 @@ class EurorackPanelOptions(Persistable):
   # These values probably shouldn't be accessed directly
   __slotOffsetX: float = 0.687
   __hpWidth: float = 0.508
+  __anchorPoints = {
+      "top-left": "Top Left",
+      "top-right": "Top Right",
+      "bottom-left": "Bottom Left",
+      "bottom-right": "Bottom Right",
+  }
   __supportTypes = {
     "none": "No reinforcements",
     "solid": "Solid (for blanks)",
@@ -37,6 +43,7 @@ class EurorackPanelOptions(Persistable):
       "formatId": "3u",
       "widthInHp": 6,
       "panelHeight": 0.2,
+      "anchorPoint": "top-left",
       "supportType": "none",
       "supportSolidHeight": 0.2,
       "supportShellHeight": 0.9,
@@ -45,10 +52,27 @@ class EurorackPanelOptions(Persistable):
     self.formatId: str
     self.widthInHp: int
     self.panelHeight: float
+    self.anchorPoint: str
     self.supportType: str
     self.supportSolidHeight: float
     self.supportShellHeight: float
     self.supportShellWallThickness: float
+
+  # anchorPoint getters and setters by name for the Fusion UI
+  @property
+  def anchorPointNames(self):
+    return self.__anchorPoints.values()
+  
+  @property
+  def anchorPointName(self):
+    return self.__anchorPoints[self.anchorPoint]
+  
+  def getIdForAnchorPointName(self, name: str):
+    return next(key for key, value in self.__anchorPoints.items() if value == name)
+
+  @anchorPointName.setter
+  def anchorPointName(self, name: str):
+    self.anchorPoint = self.getIdForAnchorPointName(name)
 
   # supportType getters and setters by name for the Fusion UI
   @property

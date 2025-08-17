@@ -41,7 +41,7 @@ class Persistable():
       return False
 
   def restoreDefaults(self):
-    data = self.__loadDefaults() or self.defaults
+    data = self.defaults | (self.__loadDefaults() or {})
     for key, value in data.items():
       setattr(self, key, value)
 
