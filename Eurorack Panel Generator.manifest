@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"addin",
+	"author":	"\"Cowboy\" Ben Alman",
+	"description":	{
+		"":	"A Fusion Add-in for generating Eurorack panels"
+	},
+	"version":	"0.1",
+	"runOnStartup":	true,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true,
+	"iconFilename":	"AddInIcon.svg"
+}

@@ -1,0 +1,12 @@
+persist_defaults/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Environments
+.env
+
+# Visual Studio Code
+.vscode/settings.json
