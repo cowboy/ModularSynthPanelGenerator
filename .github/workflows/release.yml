@@ -17,9 +17,10 @@ jobs:
           files:
             EurorackPanelGenerator.manifest EurorackPanelGenerator.py config.py README.md LICENSE.md CODE_OF_CONDUCT.md
             commands/ lib/ resources/project-logo.png
-          dest: build/EurorackPanelGenerator-${{ github.ref }}.zip
+          dest: build/EurorackPanelGenerator-${{ github.ref_name }}.zip
+          recursive: false
       - uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: build/EurorackPanelGenerator-${{ github.ref }}.zip
+          args: build/EurorackPanelGenerator-${{ github.ref_name }}.zip
