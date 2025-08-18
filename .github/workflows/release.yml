@@ -1,11 +1,11 @@
 name: Cut Release
 
 on:
-  push:
-    tags: ['v*.*.*']
+  release:
+    types: [created]
 
 jobs:
-  generate-installer:
+  cut-release:
     runs-on: ubuntu-latest
     concurrency:
       group: release
@@ -17,12 +17,9 @@ jobs:
           files:
             EurorackPanelGenerator.manifest EurorackPanelGenerator.py config.py README.md LICENSE.md CODE_OF_CONDUCT.md
             commands/ lib/ resources/project-logo.png
-          dest: build/EurorackPanelGenerator-${{ github.ref_name }}.zip
-      - uses: svenstaro/upload-release-action@v2
+          dest: build/EurorackPanelGenerator-${{ github.ref }}.zip
+      - uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          file: build/*
-          file_glob: true
-          body: TBD
-          prerelease: true
+          args: build/EurorackPanelGenerator-${{ github.ref }}.zip
