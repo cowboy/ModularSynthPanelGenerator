@@ -136,11 +136,11 @@ Development environment notes:
   [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) to stop complaining. I would
   rather not need them, but I'm not sure how to improve this. Any advice or PRs that improve type checking would be
   greatly appreciated.
-- I've been using a `.vscode/settings.json` files that looks like this, but it's gitignored because it constains local
+- I've been using a `.vscode/settings.json` file that looks like this, but it's gitignored because it constains local
   paths. AFAIK, there's no way to write these paths in a user or operating system agnostic way. Until there's a better
   solution, I recommend creating a throwaway Fusion add-in from the `Scripts and Add-Ins` dialog just to grab those
-  paths, then create your own `.vscode/settings.json` file in this project using the paths it generates. You'll probably
-  also want to add in the `files.exclude` section to hide auto-generated python temp files.
+  paths, then create your own local `.vscode/settings.json` file in this project using the paths it generates. You'll
+  probably also want to add in the `files.exclude` section to hide auto-generated temp files.
 
 ```json
 {
