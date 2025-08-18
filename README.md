@@ -1,6 +1,8 @@
 # Fusion Eurorack Panel Generator
 
+[![Latest release](https://img.shields.io/github/v/release/cowboy/fusion-eurorack-panel-generator.svg?style=flat)][latest-release]
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)][coc]
 
 ## Description
 
@@ -115,7 +117,7 @@ To update this add-in, download the [latest release][latest-release] into the sa
 
 ## Contributing
 
-This project follows the [Contributor Covenant 3.0 Code of Conduct](CODE_OF_CONDUCT.md).
+This project follows the [Contributor Covenant 3.0 Code of Conduct][coc].
 
 Useful links:
 
@@ -152,3 +154,4 @@ License][cc-by-nc-sa].
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+[coc]: https://github.com/cowboy/fusion-eurorack-panel-generator/blob/main/CODE_OF_CONDUCT.md
