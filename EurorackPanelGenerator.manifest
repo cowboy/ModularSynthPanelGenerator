@@ -5,7 +5,7 @@
 	"description":	{
 		"":	"A Fusion Add-in for generating Eurorack panels"
 	},
-	"version":	"0.1.0",
+	"version":	"(in-development)",
 	"runOnStartup":	true,
 	"supportedOS":	"windows|mac",
 	"editEnabled":	true,
