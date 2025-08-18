@@ -2,9 +2,9 @@
 
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
-<img align="right" src="resources/project-logo.png">
-
 ## Description
+
+<img align="right" src="resources/project-logo.png">
 
 TL;DR: This is a Eurorack panel generator [add-in][addins] for [Autodesk Fusion][fusion]
 
