@@ -28,12 +28,12 @@ class EurorackPanelOptions(Persistable):
   __formatTypes = {
     "3u": {
       "name": "3U",
-      "length": 12.85,
+      "panelLength": 12.85,
       "maxPcbLength": 11.0,
     },
     "1u_intellijel": {
       "name": "1U (Intellijel)",
-      "length": 3.965,
+      "panelLength": 3.965,
       "maxPcbLength": 2.25,
     },
   }
@@ -118,8 +118,8 @@ class EurorackPanelOptions(Persistable):
     return '{} * {}'.format(self.widthInHp, unitsMgr.formatValue(self.__hpWidth))
 
   @property
-  def length(self):
-    return self.__formatTypes[self.formatId]["length"]
+  def panelLength(self):
+    return self.__formatTypes[self.formatId]["panelLength"]
 
   @property
   def maxPcbLength(self):

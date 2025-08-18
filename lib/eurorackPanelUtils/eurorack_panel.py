@@ -26,9 +26,9 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
   # Panel
   match opts.anchorPoint:
     case 'top-left':
-      panelStartPoint = point(0, -opts.length)
+      panelStartPoint = point(0, -opts.panelLength)
     case 'top-right':
-      panelStartPoint = point(-opts.width, -opts.length)
+      panelStartPoint = point(-opts.width, -opts.panelLength)
     case 'bottom-left':
       panelStartPoint = point(0, 0)
     case 'bottom-right':
@@ -36,7 +36,7 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
     case _:
       raise ValueError('Invalid anchorPoint value')
 
-  rectangleLines = sketchRectangle(sketch, panelStartPoint, opts.width, opts.length)
+  rectangleLines = sketchRectangle(sketch, panelStartPoint, opts.width, opts.panelLength)
   constrainRectangleWidthHeight(sketch, rectangleLines)
   dimensions.item(dimensions.count - 2).parameter.expression = opts.widthAsExpression
   
@@ -80,7 +80,7 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
     constraints.addCoincident(line.endSketchPoint, panelRightLine)
     return line
 
-  railLength = (opts.length - opts.maxPcbLength) / 2
+  railLength = (opts.panelLength - opts.maxPcbLength) / 2
   topRefLine = addRefLine(panelTopLine, -railLength)
   bottomRefLine = addRefLine(panelBottomLine, railLength)
 
