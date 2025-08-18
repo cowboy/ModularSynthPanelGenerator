@@ -29,12 +29,12 @@ class EurorackPanelOptions(Persistable):
     "3u": {
       "name": "3U",
       "length": 12.85,
-      "railLength": 0.925,
+      "maxPcbLength": 11.0,
     },
     "1u_intellijel": {
       "name": "1U (Intellijel)",
       "length": 3.965,
-      "railLength": 0.8325,
+      "maxPcbLength": 2.25,
     },
   }
   
@@ -122,8 +122,8 @@ class EurorackPanelOptions(Persistable):
     return self.__formatTypes[self.formatId]["length"]
 
   @property
-  def railLength(self):
-    return self.__formatTypes[self.formatId]["railLength"]
+  def maxPcbLength(self):
+    return self.__formatTypes[self.formatId]["maxPcbLength"]
   
   @property
   def slotOffsetX(self):

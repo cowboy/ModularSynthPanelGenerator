@@ -80,11 +80,20 @@ def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Compo
     constraints.addCoincident(line.endSketchPoint, panelRightLine)
     return line
 
-  topRefLine = addRefLine(panelTopLine, -opts.railLength)
-  bottomRefLine = addRefLine(panelBottomLine, opts.railLength)
+  railLength = (opts.length - opts.maxPcbLength) / 2
+  topRefLine = addRefLine(panelTopLine, -railLength)
+  bottomRefLine = addRefLine(panelBottomLine, railLength)
+
+  dimensions.addDistanceDimension(
+    topRefLine.startSketchPoint,
+    bottomRefLine.startSketchPoint,
+    adsk.fusion.DimensionOrientations.VerticalDimensionOrientation, # type: ignore
+    addPoints(midpoint(topRefLine.startSketchPoint.geometry, bottomRefLine.startSketchPoint.geometry), point(-0.2, 0)),
+    False
+  )
 
   if opts.supportType == 'shell':
-    shellRectLines = sketchRectangle(sketch, bottomRefLine.startSketchPoint.geometry, opts.width, opts.length - (2 * opts.railLength), offset=opts.supportShellWallThickness)
+    shellRectLines = sketchRectangle(sketch, bottomRefLine.startSketchPoint.geometry, opts.width, opts.maxPcbLength, offset=opts.supportShellWallThickness)
     shellBottomLine = shellRectLines.item(0)
     shellRightLine = shellRectLines.item(1)
     shellTopLine = shellRectLines.item(2)
