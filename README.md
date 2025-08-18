@@ -22,15 +22,16 @@ file.
 
 With this add-in, you can...
 
-- generate 3U and 1U (Intellijel) compatible Eurorack panels, suitable for 3D printing
+- generate [3U][intellijel-spec], [1U (Intellijel)][intellijel-spec], and [1U Tile (Pulp Logic)][pulplogic-spec]
+  compatible Eurorack panels, suitable for 3D printing (or CNC?)
 - choose any width from 2 to 9000 HP
 - set a custom panel thickness
 - choose from two different reinforcement types, which each thicken the center area of the panel, while leaving the
-  mounting screw area thickness unchanged:
-  - `Shell`: This creates a hollow shell, leaving space inside for jacks and switches. Generally useful for sizes 4 HP
-    and larger.
-  - `Solid`: This works well for blanks or very narrow modules, where the shell approach wouldn't leave enough space for
-    components.
+  panel thickness in the mounting screw area unchanged:
+  - `Shell`: This creates a hollow shell, adding strength while leaving space inside for jacks and switches. Generally
+    useful for 4 HP and larger panels.
+  - `Solid`: This adds strength to larger blanks, or very narrow modules where the shell approach wouldn't leave enough
+    space for components.
 - save custom default values for easy recall
 - easily edit generated sketches to change the HP (or other) values or features to change extrusions, after-the-fact
 
@@ -38,6 +39,7 @@ Additional Notes:
 
 - I print with PETG using a 0.4mm nozzle and 0.2mm layer height on a Bambu X1C, without issues.
 - When using reinforcements, it'll probably be easiest if you print with the panel face down. 😛
+- Pulp Logic tiles are meant to be made in multipes of 6 HP but I won't tell anyone if you make odd sizes.
 
 ## Usage
 
@@ -45,8 +47,7 @@ Additional Notes:
 | --------------------------- | ----------------------------- |
 | ![Menu](resources/menu.png) | ![Panel](resources/panel.png) |
 
-<details>
-<summary>Click to show screenshots of generated panels</summary>
+### Generated panel examples
 
 | 3U 6HP Panel (no reinforcement) | 3U 2HP Panel (solid reinforcement)  | 3U 6HP Panel (shell reinforcement)  |
 | ------------------------------- | ----------------------------------- | ----------------------------------- |
@@ -56,15 +57,11 @@ Additional Notes:
 | ------------------------------------ | -------------------------------------- | -------------------------------------- |
 | ![](resources/1u-12hp-solid-top.png) | ![](resources/3u-2hp-solid-bottom.png) | ![](resources/3u-4hp-shell-bottom.png) |
 
-</details>
-<details>
-<summary>Click to show screenshots of generated sketches</summary>
+### Generated sketch examples
 
 | Example generated sketch         | Panel width HP in sketch is editable        |
 | -------------------------------- | ------------------------------------------- |
 | ![](resources/3u-6hp-sketch.png) | ![](resources/3u-6hp-sketch-edit-width.png) |
-
-</details>
 
 ## Requirements
 
@@ -171,6 +168,11 @@ Files of interest:
 
 _(More to come, but in the meantime, if you give this a try and have any issues, please let me know)_
 
+## References
+
+- [Intellijel - 1U Technical Specifications][intellijel-spec]
+- [Pulp Logic - About 1U Tiles][pulplogic-spec]
+
 ## Support the project
 
 This add-in is free. However, if you want to support the project you can do so by
@@ -180,8 +182,9 @@ This add-in is free. However, if you want to support the project you can do so b
 
 This work was heavily influenced by the
 [FusionGridfinityGenerator](https://github.com/Le0Michine/FusionGridfinityGenerator) add-in. I did my best to solve
-problems in my own way, but if you see similarities or outright duplicated code (or README content), don't be surprised.
-There's no way I could've done this without studying that codebase.
+problems in my own way, but if you see similarities in the code or README, don't be surprised. There's no way I could've
+done this without studying that codebase. I honestly didn't even know Fusion add-ins were a thing until I stumbled
+across that project. Yay!
 
 ## License
 
@@ -200,3 +203,5 @@ License][cc-by-nc-sa].
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
 [coc]: https://github.com/cowboy/fusion-eurorack-panel-generator/blob/main/CODE_OF_CONDUCT.md
 [vscode]: https://code.visualstudio.com/
+[pulplogic-spec]: https://pulplogic.com/1u_tiles/
+[intellijel-spec]: https://intellijel.com/support/1u-technical-specifications/
