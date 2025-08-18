@@ -4,7 +4,7 @@
 
 ## Description
 
-<img align="right" src="resources/project-logo.png">
+<img align="right" src="resources/project-logo-readme.png">
 
 TL;DR: This is a Eurorack panel generator [add-in][addins] for [Autodesk Fusion][fusion]
 
@@ -12,8 +12,9 @@ If you're like me and you like making DIY Eurorack modules but absolutely hate m
 bits of metal go flying everywhere and it's impossible to get all the holes to line up just right and it's just so damn
 tedious, maybe this thing will help you out.
 
-I've been 3D printing my DIY Eurorack module panels for a while now, but until I made this add-in, I was copying and
-pasting a few manual template components over and over again, which resulted in a very large and very slow project file.
+I've been 3D printing DIY Eurorack module panels for a while now, but until I made this add-in, I'd been copying and
+pasting some manual template components over and over again, which resulted in a very large and very slow Fusion project
+file.
 
 ## Features
 
@@ -29,16 +30,16 @@ With this add-in, you can...
   - `Solid`: This works well for blanks or very narrow modules, where the shell approach wouldn't leave enough space for
     components.
 - save custom default values for easy recall
-- easily edit generated sketches to change the HP value or features to change extrusions, after-the-fact
+- easily edit generated sketches to change the HP (or other) values or features to change extrusions, after-the-fact
 
 Additional Notes:
 
 - I print with PETG using a 0.4mm nozzle and 0.2mm layer height on a Bambu X1C, without issues.
-- When using reinforcements, it's probably easiest if you print with the panel face down.
+- When using reinforcements, it'll probably be easiest if you print with the panel face down. 😛
 
 ## Usage
 
-| Step 1. Open the add-in     | Step 2. Generate the panel    |
+| 1️⃣ Open the add-in          | 2️⃣ Generate the panel         |
 | --------------------------- | ----------------------------- |
 | ![Menu](resources/menu.png) | ![Panel](resources/panel.png) |
 
@@ -110,18 +111,20 @@ To update this add-in, download the [latest release][latest-release] into the sa
 
 ## Contributing
 
-Useful links
+This project follows the [Contributor Covenant 3.0 Code of Conduct](CODE_OF_CONDUCT.md).
+
+Useful links:
 
 - [Fusion API User's Manual](https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-C1545D80-D804-4CF3-886D-9B5C54B2D7A2)
 - [Fusion API Reference Manual](https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-7B5A90C8-E94C-48DA-B16B-430729B734DC)
-- [Managing Scripts and Add-Ins](https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954)
+- [Managing Scripts and Add-Ins][addins]
 
-_(more to come)_
+_(More to come, but in the meantime, if you give this a try and have any issues, please let me know)_
 
 ## Support the project
 
 This add-in is free. However, if you want to support the project you can do so by
-[buying me a coffee (or synthesizer)](https://buymeacoffee.com/benalman).
+[buying me a coffee (or synthesizer)](https://buymeacoffee.com/benalman). Thanks!
 
 ## Credits
 
@@ -136,7 +139,7 @@ License][cc-by-nc-sa].
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
 
 [fusion]: https://www.autodesk.com/products/fusion-360
-[addins]: https://help.autodesk.com/view/fusion360/ENU/?guid=SLD-ADD-IN-TOOLS
+[addins]: https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954
 [latest-release]: https://github.com/cowboy/fusion-eurorack-panel-generator/releases/latest
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
