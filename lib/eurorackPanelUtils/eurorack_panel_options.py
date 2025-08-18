@@ -6,14 +6,7 @@ app = adsk.core.Application.get()
 # All numeric values are in cm, which is the default for the Fusion API
 
 class EurorackPanelOptions(Persistable):
-  # These values shouldn't need to change
-  slotDiameter: float = 0.35
-  slotLength: float = 0.15
-  slotOffsetY: float = 0.3
-
   # These values probably shouldn't be accessed directly
-  __slotOffsetX: float = 0.687
-  __hpWidth: float = 0.508
   __anchorPoints = {
       "top-left": "Top Left",
       "top-right": "Top Right",
@@ -25,7 +18,14 @@ class EurorackPanelOptions(Persistable):
     "solid": "Solid (for blanks)",
     "shell": "Shell (for point-to-point switches/jacks)",
   }
-  __formatTypes = {
+  __formatData = {
+    "__defaults": {
+      "hpWidth": 0.508,
+      "slotDiameter": 0.35,
+      "slotLength": 0.15,
+      "slotOffsetY": 0.3,
+      "slotOffsetX": 0.687,
+    },
     "3u": {
       "name": "3U",
       "panelLength": 12.85,
@@ -36,8 +36,14 @@ class EurorackPanelOptions(Persistable):
       "panelLength": 3.965,
       "maxPcbLength": 2.25,
     },
+    "1u_pulplogic": {
+      "name": "1U Tile (Pulp Logic)",
+      "panelLength": 4.318,
+      "maxPcbLength": 2.87,
+      "slotOffsetX": 0.433,
+    },
   }
-  
+
   def __init__(self, persistFile: str):
     Persistable.__init__(self, persistFile, {
       "formatId": "3u",
@@ -93,41 +99,57 @@ class EurorackPanelOptions(Persistable):
   # formatId getters and setters by name for the Fusion UI
   @property
   def formatNames(self):
-    return [obj["name"] for obj in self.__formatTypes.values()]
+    return [obj["name"] for obj in self.__formatData.values() if "name" in obj]
   
   @property
   def formatName(self):
-    return self.__formatTypes[self.formatId]["name"]
+    return self.__formatData[self.formatId]["name"]
   
   def getIdForFormatName(self, name: str):
-    return next(key for key, value in self.__formatTypes.items() if value["name"] == name)
+    return next(key for key, value in self.__formatData.items() if "name" in value and value["name"] == name)
 
   @formatName.setter
   def formatName(self, name: str):
     self.formatId = self.getIdForFormatName(name)
 
-  # Misc getters
+  # Format data getters
+  def __formatValue(self, key: str):
+    return (self.__formatData["__defaults"] | self.__formatData[self.formatId])[key]
+  
   @property
   def width(self):
-    return self.__hpWidth * self.widthInHp
+    return self.__formatValue("hpWidth") * self.widthInHp
   
   @property
   def widthAsExpression(self):
     design = adsk.fusion.Design.cast(app.activeProduct)
     unitsMgr = design.fusionUnitsManager
-    return '{} * {}'.format(self.widthInHp, unitsMgr.formatValue(self.__hpWidth))
+    return '{} * {}'.format(self.widthInHp, unitsMgr.formatValue(self.__formatValue("hpWidth")))
 
   @property
   def panelLength(self):
-    return self.__formatTypes[self.formatId]["panelLength"]
+    return self.__formatValue("panelLength")
 
   @property
   def maxPcbLength(self):
-    return self.__formatTypes[self.formatId]["maxPcbLength"]
-  
+    return self.__formatValue("maxPcbLength")
+
+  @property
+  def slotDiameter(self):
+    return self.__formatValue("slotDiameter")
+
+  @property
+  def slotLength(self):
+    return self.__formatValue("slotLength")
+
+  @property
+  def slotOffsetY(self):
+    return self.__formatValue("slotOffsetY")
+
   @property
   def slotOffsetX(self):
     if (self.widthInHp == 2):
-      return (self.width - self.slotLength) / 2
+      return (self.width - self.__formatValue("slotLength")) / 2
     else:
-      return self.__slotOffsetX
+      return self.__formatValue("slotOffsetX")
+
