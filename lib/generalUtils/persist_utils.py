@@ -23,7 +23,7 @@ class Persistable():
         futil.log(f'saved defaults file {self.persistFile}')
       return True
     except:
-      futil.log(f'error when attemting to save defaults file {self.persistFile}')
+      futil.log(f'error when attempting to save defaults file {self.persistFile}')
       return False
 
   def __loadDefaults(self):
@@ -37,7 +37,7 @@ class Persistable():
         futil.log(f'no defaults file to load {self.persistFile}')
       return data
     except:
-      futil.log(f'error when attemting to load defaults file {self.persistFile}')
+      futil.log(f'error when attempting to load defaults file {self.persistFile}')
       return False
 
   def restoreDefaults(self):
@@ -54,6 +54,6 @@ class Persistable():
         futil.log(f'no defaults file to erase {self.persistFile}')
       return True
     except:
-      futil.log(f'error when attemting to erase defaults file {self.persistFile}')
+      futil.log(f'error when attempting to erase defaults file {self.persistFile}')
       return False
 
