@@ -80,23 +80,27 @@ You have a few options:
 
 **Option 1:** You just want to use the add-in
 
-1. Download the `.zip` file from the [latest release][latest-release] page.
-2. Unzip it. You can unzip anywhere.
+1. Download the `EurorackPanelGenerator-vX.Y.Z.zip` file from the [latest release][latest-release] page. Note that the
+   `X.Y.Z` part will change based on the release version.
+2. Unzip it. You can unzip anywhere, but the [Installing, Linking, and Removing Scripts and Add-Ins][addins-installing]
+   documentation page has suggestions.
 
 **Option 2:** You plan on contributing
 
-1. Fork this repo
-2. Clone your fork. You can clone anywhere.
+1. Fork this repo.
+2. Clone your fork. You can clone anywhere, but the [Installing, Linking, and Removing Scripts and
+   Add-Ins][addins-installing] documentation page has suggestions.
 
 #### Step 2: Install into Fusion
 
 1. In Fusion open the `Scripts and Add-Ins` dialog by pressing `Shift + S` or going to
    `Utilities -> Add-Ins -> Scripts and Add-Ins` in the top menu of the Design workspace.
 2. Click the `+` (plus) icon at the top of the `Scripts and Add-Ins` dialog and select `Script or add-in from device`.
-3. Choose the folder created after unzipping / cloning. It will be named something like `EurorackPanelGenerator` and
-   will contain `lib` and `commands` folders, as well as files like `EurorackPanelGenerator.py` (you may not be able to
-   see some of the folder contents in the `+` file dialog).
-4. Verify that you see the `EurorackPanelGenerator` add-in in the list.
+3. Choose the folder created after unzipping / cloning. It will be named something like `EurorackPanelGenerator` or
+   `EurorackPanelGenerator-vX.Y.Z` and will contain `lib`, `commands` and `resources` folders, as well as files like
+   `EurorackPanelGenerator.manifest` and `EurorackPanelGenerator.py` (you may not be able to see some of the folder
+   contents in the `+` file dialog).
+4. Verify that you see the `EurorackPanelGenerator` add-in in the `Scripts and Add-Ins` dialog list.
 5. Enable the `Run` option for the `EurorackPanelGenerator` add-in.
 
 When done correctly, the Design workspace `Solid -> Create` menu should have a `Eurorack Panel Generator` option.
@@ -142,6 +146,8 @@ License][cc-by-nc-sa].
 
 [fusion]: https://www.autodesk.com/products/fusion-360
 [addins]: https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954
+[addins-installing]:
+  https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954#Installing
 [latest-release]: https://github.com/cowboy/fusion-eurorack-panel-generator/releases/latest
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
