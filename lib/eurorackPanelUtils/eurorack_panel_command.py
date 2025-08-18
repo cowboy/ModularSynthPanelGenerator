@@ -113,7 +113,7 @@ def initializeInputs():
   global INPUTS
   defaultLengthUnits = app.activeProduct.unitsManager.defaultLengthUnits
 
-  message = 'For more information, <a href="https://github.com/cowboy/fusion-eurorack-panel-generator#eurorack-panel-generator">read the documentation.</a>'
+  message = 'For more information, <a href="https://github.com/cowboy/fusion-eurorack-panel-generator">read the documentation.</a>'
   INPUTS.addTextBoxCommandInput('infoTextBox', 'Information', message, 1, True)            
 
   heightDropdown = INPUTS.addDropDownCommandInput('formatType', 'Panel format', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
