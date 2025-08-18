@@ -93,11 +93,11 @@ You have a few options:
 1. In Fusion open the `Scripts and Add-Ins` dialog by pressing `Shift + S` or going to
    `Utilities -> Add-Ins -> Scripts and Add-Ins` in the top menu of the Design workspace.
 2. Click the `+` (plus) icon at the top of the `Scripts and Add-Ins` dialog and select `Script or add-in from device`.
-3. Choose the folder created after unzipping / cloning. It will be named something like `Eurorack Panel Generator` and
-   will contain `lib` and `commands` folders, as well as files like `Eurorack Panel Generator.py` (you may not be able
-   to see some of the folder contents in the `+` file dialog).
-4. Verify that you see the `Eurorack Panel Generator` add-in in the list.
-5. Enable the `Run` option for the `Eurorack Panel Generator` add-in.
+3. Choose the folder created after unzipping / cloning. It will be named something like `EurorackPanelGenerator` and
+   will contain `lib` and `commands` folders, as well as files like `EurorackPanelGenerator.py` (you may not be able to
+   see some of the folder contents in the `+` file dialog).
+4. Verify that you see the `EurorackPanelGenerator` add-in in the list.
+5. Enable the `Run` option for the `EurorackPanelGenerator` add-in.
 
 When done correctly, the Design workspace `Solid -> Create` menu should have a `Eurorack Panel Generator` option.
 
@@ -132,6 +132,8 @@ This work was heavily influenced by the
 [FusionGridfinityGenerator](https://github.com/Le0Michine/FusionGridfinityGenerator) add-in. I did my best to solve
 problems in my own way, but if you see similarities or outright duplicated code (or README content), don't be surprised.
 There's no way I could've done this without studying that codebase.
+
+## License
 
 This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 License][cc-by-nc-sa].
