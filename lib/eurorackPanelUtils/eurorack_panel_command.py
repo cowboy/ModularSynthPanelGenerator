@@ -44,7 +44,8 @@ def command_created(args: adsk.core.CommandCreatedEventArgs):
   OPTIONS.restoreDefaults()
   INPUTS = args.command.commandInputs
 
-  args.command.setDialogInitialSize(400, 500)
+  args.command.setDialogMinimumSize(400, 450)
+  args.command.setDialogSize(400, 450)
 
   initializeInputs()
   enableDisableInputs()
@@ -83,9 +84,9 @@ def onCommandInputChanged(args: adsk.core.InputChangedEventArgs):
     OPTIONS.restoreDefaults()
     updateInputsFromOptions()
   elif changedInputId == 'saveDefaults':
-    OPTIONS.saveDefaults()
+    if not OPTIONS.saveDefaults(): ui.messageBox(f'Unable to save defaults file {OPTIONS.persistFile}. Is it writable?', 'Warning')
   elif changedInputId == 'eraseDefaults':
-    OPTIONS.eraseDefaults()
+    if not OPTIONS.eraseDefaults(): ui.messageBox(f'Unable to erase defaults file {OPTIONS.persistFile}. Is it writable?', 'Warning')
 
 # This event handler is called when the user interacts with any of the inputs in the dialog
 # which allows you to verify that all of the inputs are valid and enables the OK button.
@@ -139,15 +140,14 @@ def initializeInputs():
   supportGroup.children.addValueInput('supportShellWallThickness', 'Shell wall thickness', defaultLengthUnits, adsk.core.ValueInput.createByReal(OPTIONS.supportShellWallThickness))
 
   # Save, restore and erase defaults
-  restoreDefaultsInput = INPUTS.addBoolValueInput('restoreDefaults', 'Reset', False, '', False)
-  restoreDefaultsInput.text = 'Reset all panel settings to defaults'
-
-  persistGroup = INPUTS.addGroupCommandInput('persistGroup', 'Save defaults')
-  persistGroup.isExpanded = False
+  persistGroup = INPUTS.addGroupCommandInput('persistGroup', 'Defaults')
+  persistGroup.isExpanded = True
+  restoreDefaultsInput = persistGroup.children.addBoolValueInput('restoreDefaults', 'Reset', False, '', False)
+  restoreDefaultsInput.text = 'Reset all inputs to default values'
   saveDefaultsInput = persistGroup.children.addBoolValueInput('saveDefaults', 'Update defaults', False, '', False)
-  saveDefaultsInput.text = 'Save current panel settings as new defaults'
+  saveDefaultsInput.text = 'Save current input values as new defaults'
   eraseDefaultsInput = persistGroup.children.addBoolValueInput('eraseDefaults', 'Factory reset', False, '', False)
-  eraseDefaultsInput.text = 'Erase saved panel settings defaults'
+  eraseDefaultsInput.text = 'Erase saved input value defaults'
 
   message = 'Does this add-in save you time? Say thanks by <a href="https://buymeacoffee.com/benalman">buying me a coffee.</a>'
   coffeeTextBox = INPUTS.addTextBoxCommandInput('coffeeTextBox', 'Thanks', message, 1, True)
