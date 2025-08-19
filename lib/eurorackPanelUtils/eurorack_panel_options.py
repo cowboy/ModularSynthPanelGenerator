@@ -22,9 +22,9 @@ class EurorackPanelOptions(Persistable):
     "__defaults": {
       "hpWidth": 0.508,
       "slotDiameter": 0.35,
-      "slotLength": 0.15,
+      "slotLength": 0.14,
       "slotOffsetY": 0.3,
-      "slotOffsetX": 0.687,
+      "slotOffsetX": 0.6,
     },
     "3u": {
       "name": "3U",
@@ -148,8 +148,5 @@ class EurorackPanelOptions(Persistable):
 
   @property
   def slotOffsetX(self):
-    if (self.widthInHp == 2):
-      return (self.width - self.__formatValue("slotLength")) / 2
-    else:
-      return self.__formatValue("slotOffsetX")
+    return self.__formatValue("slotOffsetX")
 
