@@ -121,6 +121,7 @@ Useful links:
 - [Fusion API User's Manual](https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-C1545D80-D804-4CF3-886D-9B5C54B2D7A2)
 - [Fusion API Reference Manual](https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-7B5A90C8-E94C-48DA-B16B-430729B734DC)
 - [Managing Scripts and Add-Ins][addins]
+- [Fusion 360 API Interactive Cheat Sheet](https://fusion360-api-cheatsheet.github.io/)
 
 Development environment notes:
 

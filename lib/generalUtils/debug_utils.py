@@ -4,8 +4,6 @@ from ..fusionAddInUtils import log
 app = adsk.core.Application.get()
 ui = app.userInterface
 
-# alert(f'diffX: {diffX}<br>diffY: {diffY}')
-# alert(f'ratio: {ratio}')
 def alert(msg):
   ui.messageBox(str(msg))
 

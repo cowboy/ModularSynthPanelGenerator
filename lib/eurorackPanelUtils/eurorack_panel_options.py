@@ -6,7 +6,6 @@ app = adsk.core.Application.get()
 # All numeric values are in cm, which is the default for the Fusion API
 
 class EurorackPanelOptions(Persistable):
-  # These values probably shouldn't be accessed directly
   __anchorPoints = {
       "top-left": "Top Left",
       "top-right": "Top Right",
@@ -122,6 +121,7 @@ class EurorackPanelOptions(Persistable):
   
   @property
   def widthAsExpression(self):
+    # Ensure value is specified as HP * hpWidth in the user's default units for easy adjustments later
     design = adsk.fusion.Design.cast(app.activeProduct)
     unitsMgr = design.fusionUnitsManager
     return '{} * {}'.format(self.widthInHp, unitsMgr.formatValue(self.__formatValue("hpWidth")))

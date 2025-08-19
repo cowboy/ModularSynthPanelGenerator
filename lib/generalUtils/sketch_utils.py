@@ -4,6 +4,7 @@ from typing import TypedDict, NotRequired, Unpack
 
 # Sketch Object
 # https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-2367ed6a-0ad1-4c8f-935e-b52738d1ce2b
+#
 # Sketch Sample API Sample
 # https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-da476794-86f9-11e7-937e-6c0b84aa5a3f
 

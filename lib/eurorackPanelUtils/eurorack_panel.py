@@ -3,12 +3,6 @@ from ..generalUtils.sketch_utils import addPoints, constrainPointToPoint, constr
 from ..generalUtils.extrude_utils import extrude
 from .eurorack_panel_options import EurorackPanelOptions
 
-# https://fusion360-api-cheatsheet.github.io/
-#
-# GridfinityGenerator (major inspiration for this project)
-# https://github.com/Le0Michine/FusionGridfinityGenerator/
-# https://apps.autodesk.com/FUSION/en/Detail/Index?id=7197558650811789
-
 app = adsk.core.Application.get()
 ui = app.userInterface
 
