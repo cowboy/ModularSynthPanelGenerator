@@ -43,9 +43,9 @@ Additional Notes:
 
 ## Usage
 
-| 1️⃣ Open the add-in          | 2️⃣ Generate the panel         |
-| --------------------------- | ----------------------------- |
-| ![Menu](resources/menu.png) | ![Panel](resources/panel.png) |
+| 1️⃣ Open the add-in          | 2️⃣ Generate the panel                |
+| --------------------------- | ------------------------------------ |
+| ![Menu](resources/menu.png) | ![PanDialogel](resources/dialog.png) |
 
 ### Generated panel examples
 
