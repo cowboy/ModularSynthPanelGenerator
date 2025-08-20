@@ -3,7 +3,7 @@
 	"type":	"addin",
 	"author":	"\"Cowboy\" Ben Alman",
 	"description":	{
-		"":	"A Fusion Add-in for generating Eurorack panels"
+		"":	"A Fusion Add-in for generating modular synth panels"
 	},
 	"version":	"(in-development)",
 	"runOnStartup":	true,

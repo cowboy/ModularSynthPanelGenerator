@@ -8,7 +8,7 @@ persistDir = normpath(join(dirname(abspath(__file__)), '../../persist_defaults')
 class Persistable():
   def __init__(self, persistFile: str, defaults: dict):
     self.persistFile = join(persistDir, persistFile)
-    self.defaults = defaults
+    self._defaults = defaults
     self.restoreDefaults()
   
   def saveDefaults(self):
@@ -17,7 +17,7 @@ class Persistable():
         mkdir(persistDir)
       with open(self.persistFile, 'w') as persistFile:
         data = {}
-        for key in self.defaults.keys():
+        for key in self._defaults.keys():
           data[key] = getattr(self, key)
         json.dump(data, persistFile, indent=2)
         futil.log(f'saved defaults file {self.persistFile}')
@@ -41,9 +41,16 @@ class Persistable():
       return False
 
   def restoreDefaults(self):
-    data = self.defaults | (self.__loadDefaults() or {})
+    data = self._defaults | (self.__loadDefaults() or {})
     for key, value in data.items():
       setattr(self, key, value)
+
+  # Ensure invalid values loaded from persistFile don't break things
+  def ensureDefaultKeyIsValid(self, keyName, obj):
+    key = getattr(self, keyName)
+    if not key in obj:
+      futil.log(f'Warning: {keyName} "{key}" invalid, restoring default value "{self._defaults[keyName]}"')
+      setattr(self, keyName, self._defaults[keyName])
 
   def eraseDefaults(self):
     try:

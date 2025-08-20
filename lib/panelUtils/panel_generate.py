@@ -1,12 +1,12 @@
 import adsk.core, adsk.fusion
 from ..generalUtils.sketch_utils import addPoints, constrainPointToPoint, constrainRectangleWidthHeight, lineMidpoint, midpoint, point, sketchRectangle, sketchSlot
 from ..generalUtils.extrude_utils import extrude
-from .eurorack_panel_options import EurorackPanelOptions
+from .panel_options import PanelOptions
 
 app = adsk.core.Application.get()
 ui = app.userInterface
 
-def createEurorackPanel(opts: EurorackPanelOptions, component: adsk.fusion.Component):
+def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions):
   sketches = component.sketches
   xyPlane = component.xYConstructionPlane
   sketch = sketches.add(xyPlane)

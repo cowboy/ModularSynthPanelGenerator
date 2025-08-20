@@ -1,6 +1,6 @@
-# Fusion Eurorack Panel Generator
+# Modular Synth Panel Generator
 
-[![Latest release](https://img.shields.io/github/v/release/cowboy/fusion-eurorack-panel-generator.svg?style=flat)][latest-release]
+[![Latest release](https://img.shields.io/github/v/release/cowboy/ModularSynthPanelGenerator.svg?style=flat)][latest-release]
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)][coc]
 
@@ -8,34 +8,42 @@
 
 <img align="right" src="resources/project-logo-readme.png">
 
-TL;DR: This is a Eurorack panel generator [add-in][addins] for [Autodesk Fusion][fusion]
+TL;DR: This is a modular synth panel generator [add-in][addins] for [Autodesk Fusion][fusion]
 
-If you're like me and you like making DIY Eurorack modules but absolutely hate milling aluminum panels because little
-bits of metal go flying everywhere and it's impossible to get all the holes to line up just right and it's just so damn
+If you're like me and you like making DIY synth modules but absolutely hate milling aluminum panels because little bits
+of metal go flying everywhere and it's impossible to get all the holes to line up just right and it's just so damn
 tedious, maybe this thing will help you out.
 
-I've been 3D printing DIY Eurorack module panels for a while now, but until I made this add-in, I'd been copying and
-pasting some manual template components over and over again, which resulted in a very large and very slow Fusion project
-file.
+I've been 3D printing DIY Eurorack module panels for a while now, but until I made this add-in, I'd been manually
+copying and pasting "template" components over and over again, which resulted in a number of very large and very slow
+Fusion project files.
 
 ## Features
 
 With this add-in, you can...
 
-- generate [3U][intellijel-spec], [1U (Intellijel)][intellijel-spec], and [1U Tile (Pulp Logic)][pulplogic-spec]
-  compatible Eurorack panels, suitable for 3D printing (or CNC?)
+- generate modular synth panels (currently Eurorack and 1U formats are supported), suitable for 3D printing (or CNC?)
 - choose any width from 2 to 9000 HP
 - set a custom panel thickness
-- choose from two different reinforcement types, which each thicken the center area of the panel, while leaving the
-  panel thickness in the mounting screw area unchanged:
+- choose multiple reinforcement types, each of which thicken the center area of the panel, while leaving the panel
+  thickness in the mounting screw area unchanged:
   - `Shell`: This creates a hollow shell, adding strength while leaving space inside for jacks and switches. Generally
     useful for 4 HP and larger panels.
   - `Solid`: This adds strength to larger blanks, or very narrow modules where the shell approach wouldn't leave enough
     space for components.
 - save custom default values for easy recall
-- easily edit generated sketches to change the HP (or other) values or features to change extrusions, after-the-fact
+- easily edit generated sketches and features to change dimensions, after-the-fact
 
-Additional Notes:
+### Currently supported modular synth panel formats
+
+| Format name                   | Reference Specification                                     |
+| ----------------------------- | ----------------------------------------------------------- |
+| 3U Eurorack                   | [Doepfer - A-100 Construction Details][doepfer-spec]        |
+| 1U (Intellijel)               | [Intellijel - 1U Technical Specifications][intellijel-spec] |
+| 1U Tile (Pulp Logic)          | [Pulp Logic - About 1U Tiles][pulplogic-spec]               |
+| &lt;Your favorite format?&gt; | [Contributions welcome!](#contributing)                     |
+
+### Additional Notes
 
 - I print with PETG using a 0.4mm nozzle and 0.2mm layer height on a Bambu X1C, without issues.
 - When using reinforcements, it'll probably be easiest if you print with the panel face down. 😛
@@ -79,8 +87,8 @@ You have a few options:
 
 **Option 1:** You just want to use the add-in
 
-1. Download the `EurorackPanelGenerator-vX.Y.Z.zip` file from the [latest release][latest-release] page. Note that the
-   `X.Y.Z` part will change based on the release version.
+1. Download the `ModularSynthPanelGenerator-vX.Y.Z.zip` file from the [latest release][latest-release] page. Note that
+   the `X.Y.Z` part will change based on the release version.
 2. Unzip it. You can unzip anywhere, but the [Installing, Linking, and Removing Scripts and Add-Ins][addins-installing]
    documentation page has suggestions.
 
@@ -95,12 +103,12 @@ You have a few options:
 1. In Fusion open the `Scripts and Add-Ins` dialog by pressing `Shift + S` or going to
    `Utilities -> Add-Ins -> Scripts and Add-Ins` in the top menu of the Design workspace.
 2. Click the `+` (plus) icon at the top of the `Scripts and Add-Ins` dialog and select `Script or add-in from device`.
-3. Choose the folder created after unzipping / cloning. It will be named something like `EurorackPanelGenerator` or
-   `EurorackPanelGenerator-vX.Y.Z` and will contain `lib`, `commands` and `resources` folders, as well as files like
-   `EurorackPanelGenerator.manifest` and `EurorackPanelGenerator.py` (you may not be able to see some of the folder
-   contents in the `+` file dialog).
-4. Verify that you see the `EurorackPanelGenerator` add-in in the `Scripts and Add-Ins` dialog list.
-5. Enable the `Run` option for the `EurorackPanelGenerator` add-in.
+3. Choose the folder created after unzipping / cloning. It will be named something like `ModularSynthPanelGenerator` or
+   `ModularSynthPanelGenerator-vX.Y.Z` and will contain `lib`, `commands` and `resources` folders, as well as files like
+   `ModularSynthPanelGenerator.manifest` and `ModularSynthPanelGenerator.py` (you may not be able to see some of the
+   folder contents in the `+` file dialog).
+4. Verify that you see the `ModularSynthPanelGenerator` add-in in the `Scripts and Add-Ins` dialog list.
+5. Enable the `Run` option for the `ModularSynthPanelGenerator` add-in.
 
 When done correctly, the Design workspace `Solid -> Create` menu should have a `Eurorack Panel Generator` option.
 
@@ -126,8 +134,8 @@ Useful links:
 Development environment notes:
 
 - Launch the editor ([Visual Studio Code][vscode]) from inside Fusion by opening the `Scripts and Add-Ins` dialog
-  (`Shift + S`), right-clicking on the `EurorackPanelGenerator` and clicking `Edit in code editor`. This allows you to
-  attach the vscode debugger to the running process as well as reload after you've made changes.
+  (`Shift + S`), right-clicking on the `ModularSynthPanelGenerator` and clicking `Edit in code editor`. This allows you
+  to attach the vscode debugger to the running process as well as reload after you've made changes.
 - I've tried to leave the boilerplate files generated by Fusion's `Create script or add-in` relatively untouched, so
   that the code can be as modular as possible. Unused boilerplate has been removed where possible.
 - There are `# type: ignore` comments throughout the code to get
@@ -155,24 +163,19 @@ Development environment notes:
 
 Files of interest:
 
-| File                                                                                                  | Description                                                                                                                                        |
-| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [commands/commandDialog](/commands/commandDialog)                                                     | Boilerplate command code generated by Fusion. You likely won't be touching these files.                                                            |
-| [lib/eurorackPanelUtils/eurorack_panel_command.py](/lib/eurorackPanelUtils/eurorack_panel_command.py) | Most of the command code that would have gone into the boilerplate command `entry` file. This is where the main dialog is initialized and updated. |
-| [lib/eurorackPanelUtils/eurorack_panel_options.py](/lib/eurorackPanelUtils/eurorack_panel_options.py) | `EurorackPanelOptions` class with add-in options and some constants, including convenience getters/setters for the ui dialog imputs.               |
-| [lib/eurorackPanelUtils/eurorack_panel.py](/lib/eurorackPanelUtils/eurorack_panel.py)                 | Code that actually generates the panel, including the sketch and extrusions.                                                                       |
-| [lib/generalUtils/debug_utils.py](/lib/generalUtils/debug_utils.py)                                   | Debugging utilities                                                                                                                                |
-| [lib/generalUtils/extrude_utils.py](/lib/generalUtils/extrude_utils.py)                               | Extrusion utilities                                                                                                                                |
-| [lib/generalUtils/persist_utils.py](/lib/generalUtils/persist_utils.py)                               | `Persistable` class for persisting defaults to disk                                                                                                |
-| [lib/generalUtils/sketch_utils.py](/lib/generalUtils/sketch_utils.py)                                 | Sketch utilities                                                                                                                                   |
-| [lib/generalUtils/value_utils.py](/lib/generalUtils/value_utils.py)                                   | Value normalization utilities                                                                                                                      |
+| File                                                                    | Description                                                                                                                                           |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [commands/commandDialog](/commands/commandDialog)                       | Boilerplate command code generated by Fusion. You likely won't be touching these files.                                                               |
+| [lib/panelUtils/panel_command.py](/lib/panelUtils/panel_command.py)     | Most of the command code that would have gone into the boilerplate command `entry.py` file. This is where the main dialog is initialized and updated. |
+| [lib/panelUtils/panel_options.py](/lib/panelUtils/panel_options.py)     | `PanelOptions` class with panel options and constants, including convenience getters/setters for ui dialog imputs.                                    |
+| [lib/panelUtils/panel_generate.py](/lib/panelUtils/panel_generate.py)   | Code that actually generates the panel, including the sketch and extrusions.                                                                          |
+| [lib/generalUtils/debug_utils.py](/lib/generalUtils/debug_utils.py)     | Debugging utilities                                                                                                                                   |
+| [lib/generalUtils/extrude_utils.py](/lib/generalUtils/extrude_utils.py) | Extrusion utilities                                                                                                                                   |
+| [lib/generalUtils/persist_utils.py](/lib/generalUtils/persist_utils.py) | `Persistable` class for persisting defaults to disk                                                                                                   |
+| [lib/generalUtils/sketch_utils.py](/lib/generalUtils/sketch_utils.py)   | Sketch utilities                                                                                                                                      |
+| [lib/generalUtils/value_utils.py](/lib/generalUtils/value_utils.py)     | Value normalization utilities                                                                                                                         |
 
 _(More to come, but in the meantime, if you give this a try and have any issues, please let me know)_
-
-## References
-
-- [Intellijel - 1U Technical Specifications][intellijel-spec]
-- [Pulp Logic - About 1U Tiles][pulplogic-spec]
 
 ## Support the project
 
@@ -198,11 +201,12 @@ License][cc-by-nc-sa].
 [addins]: https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954
 [addins-installing]:
   https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-9701BBA7-EC0E-4016-A9C8-964AA4838954#Installing
-[latest-release]: https://github.com/cowboy/fusion-eurorack-panel-generator/releases/latest
+[latest-release]: https://github.com/cowboy/ModularSynthPanelGenerator/releases/latest
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
-[coc]: https://github.com/cowboy/fusion-eurorack-panel-generator/blob/main/CODE_OF_CONDUCT.md
+[coc]: https://github.com/cowboy/ModularSynthPanelGenerator/blob/main/CODE_OF_CONDUCT.md
 [vscode]: https://code.visualstudio.com/
+[doepfer-spec]: https://www.doepfer.de/a100_man/a100m_e.htm
 [pulplogic-spec]: https://pulplogic.com/1u_tiles/
 [intellijel-spec]: https://intellijel.com/support/1u-technical-specifications/

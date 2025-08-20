@@ -2,7 +2,7 @@ import adsk.core
 import os
 from ...lib import fusionAddInUtils as futil
 from ... import config
-from ...lib.eurorackPanelUtils.eurorack_panel_command import command_created, CMD_NAME, CMD_Description
+from ...lib.panelUtils.panel_command import command_created, CMD_NAME, CMD_Description
 app = adsk.core.Application.get()
 ui = app.userInterface
 

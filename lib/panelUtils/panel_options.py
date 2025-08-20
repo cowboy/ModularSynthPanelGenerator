@@ -5,7 +5,7 @@ app = adsk.core.Application.get()
 
 # All numeric values are in cm, which is the default for the Fusion API
 
-class EurorackPanelOptions(Persistable):
+class PanelOptions(Persistable):
   __anchorPoints = {
       "top-left": "Top Left",
       "top-right": "Top Right",
@@ -14,8 +14,8 @@ class EurorackPanelOptions(Persistable):
   }
   __supportTypes = {
     "none": "No reinforcements",
-    "solid": "Solid (for blanks)",
-    "shell": "Shell (for point-to-point switches/jacks)",
+    "solid": "Solid (good for larger blanks)",
+    "shell": "Shell (leaves space for components)",
   }
   __formatData = {
     "__defaults": {
@@ -25,8 +25,8 @@ class EurorackPanelOptions(Persistable):
       "slotOffsetY": 0.3,
       "slotOffsetX": 0.6,
     },
-    "3u": {
-      "name": "3U",
+    "3u_eurorack": {
+      "name": "3U Eurorack",
       "panelLength": 12.85,
       "maxPcbLength": 11.0,
     },
@@ -45,7 +45,7 @@ class EurorackPanelOptions(Persistable):
 
   def __init__(self, persistFile: str):
     Persistable.__init__(self, persistFile, {
-      "formatId": "3u",
+      "formatId": "3u_eurorack",
       "widthInHp": 6,
       "panelHeight": 0.2,
       "anchorPoint": "top-left",
@@ -62,6 +62,12 @@ class EurorackPanelOptions(Persistable):
     self.supportSolidHeight: float
     self.supportShellHeight: float
     self.supportShellWallThickness: float
+
+  def restoreDefaults(self):
+    super().restoreDefaults()
+    self.ensureDefaultKeyIsValid("formatId", self.__formatData)
+    self.ensureDefaultKeyIsValid("anchorPoint", self.__anchorPoints)
+    self.ensureDefaultKeyIsValid("supportType", self.__supportTypes)
 
   # anchorPoint getters and setters by name for the Fusion UI
   @property

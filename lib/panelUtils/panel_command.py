@@ -1,8 +1,8 @@
 import adsk.core, adsk.fusion, traceback
 
 from .. import fusionAddInUtils as futil
-from .eurorack_panel_options import EurorackPanelOptions
-from .eurorack_panel import createEurorackPanel
+from .panel_options import PanelOptions
+from .panel_generate import generatePanelComponent
 
 app = adsk.core.Application.get()
 ui = app.userInterface
@@ -19,10 +19,10 @@ ui = app.userInterface
 # Command Inputs API Sample
 # https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-e5c4dbe8-ee48-11e4-9823-f8b156d7cd97
 
-CMD_NAME = 'Eurorack Panel Generator'
-CMD_Description = 'Create a Eurorack panel'
+CMD_NAME = 'Modular Synth Panel Generator'
+CMD_Description = 'Create a modular synth panel'
 
-OPTIONS = EurorackPanelOptions('eurorack_panel.json')
+OPTIONS = PanelOptions('modular_synth_panel_generator.json')
 INPUTS: adsk.core.CommandInputs
 INPUTS_VALID = True
 
@@ -61,13 +61,13 @@ def command_created(args: adsk.core.CommandCreatedEventArgs):
 # is immediately called after the created event not command inputs were created for the dialog.
 def onCommandExecute(args: adsk.core.CommandEventArgs):
   log('Command Execute Event')
-  generateEurorackPanel(args)
+  generatePanel(args)
 
 # This event handler is called when the command needs to compute a new preview in the graphics window.
 def onCommandPreview(args: adsk.core.CommandEventArgs):
   log('Command Preview Event')
   if INPUTS_VALID:
-    generateEurorackPanel(args)
+    generatePanel(args)
   else:
     args.executeFailed = True
     args.executeFailedMessage = "Some inputs are invalid, unable to generate preview"
@@ -114,7 +114,7 @@ def initializeInputs():
   global INPUTS
   defaultLengthUnits = app.activeProduct.unitsManager.defaultLengthUnits
 
-  message = 'For more information, <a href="https://github.com/cowboy/fusion-eurorack-panel-generator">read the documentation.</a>'
+  message = 'For more information, <a href="https://github.com/cowboy/ModularSynthPanelGenerator">read the documentation.</a>'
   INPUTS.addTextBoxCommandInput('infoTextBox', 'Information', message, 1, True)            
 
   heightDropdown = INPUTS.addDropDownCommandInput('formatType', 'Panel format', adsk.core.DropDownStyles.TextListDropDownStyle) # type: ignore
@@ -158,8 +158,7 @@ def enableDisableInputs():
 
   supportTypeInput = INPUTS.itemById('supportType')
   if supportTypeInput:
-    defaults = EurorackPanelOptions('panel_options.json')
-    supportTypeId = defaults.getIdForSupportTypeName(supportTypeInput.selectedItem.name) # type: ignore
+    supportTypeId = OPTIONS.getIdForSupportTypeName(supportTypeInput.selectedItem.name)
 
     INPUTS.itemById('supportSolidHeight').isVisible = supportTypeId == 'solid'
     INPUTS.itemById('supportShellHeight').isVisible = supportTypeId == 'shell'
@@ -222,7 +221,7 @@ def updateInputsFromOptions():
     supportShellWallThickness: adsk.core.addValueInput = INPUTS.itemById('supportShellWallThickness') # type: ignore
     supportShellWallThickness.value = OPTIONS.supportShellWallThickness
 
-def generateEurorackPanel(args: adsk.core.CommandEventArgs):
+def generatePanel(args: adsk.core.CommandEventArgs):
   global OPTIONS
   try:
     des = adsk.fusion.Design.cast(app.activeProduct)
@@ -239,14 +238,14 @@ def generateEurorackPanel(args: adsk.core.CommandEventArgs):
     newCmpOcc.component.name = componentName
     newCmpOcc.activate()
 
-    eurorackPanelComponent: adsk.fusion.Component = newCmpOcc.component
+    panelComponent: adsk.fusion.Component = newCmpOcc.component
 
-    createEurorackPanel(OPTIONS, eurorackPanelComponent)
+    generatePanelComponent(panelComponent, OPTIONS)
 
     # group features in timeline
-    count = eurorackPanelComponent.sketches.count + eurorackPanelComponent.features.count + eurorackPanelComponent.constructionAxes.count + eurorackPanelComponent.constructionPlanes.count
-    eurorackPanelGroup = des.timeline.timelineGroups.add(newCmpOcc.timelineObject.index, newCmpOcc.timelineObject.index + count)
-    eurorackPanelGroup.name = componentName
+    count = panelComponent.sketches.count + panelComponent.features.count + panelComponent.constructionAxes.count + panelComponent.constructionPlanes.count
+    panelGroup = des.timeline.timelineGroups.add(newCmpOcc.timelineObject.index, newCmpOcc.timelineObject.index + count)
+    panelGroup.name = componentName
   except Exception as err:
     args.executeFailed = True
     args.executeFailedMessage = getErrorMessage()

@@ -15,12 +15,12 @@ jobs:
       - uses: vimtor/action-zip@v1.2
         with:
           files:
-            EurorackPanelGenerator.manifest EurorackPanelGenerator.py config.py LICENSE.md commands/ lib/
+            ModularSynthPanelGenerator.manifest ModularSynthPanelGenerator.py config.py LICENSE.md commands/ lib/
             resources/project-logo.png
-          dest: build/EurorackPanelGenerator-${{ github.ref_name }}.zip
+          dest: build/ModularSynthPanelGenerator-${{ github.ref_name }}.zip
           recursive: false
       - uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: build/EurorackPanelGenerator-${{ github.ref_name }}.zip
+          args: build/ModularSynthPanelGenerator-${{ github.ref_name }}.zip
