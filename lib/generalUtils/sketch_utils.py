@@ -32,6 +32,15 @@ def lineOffset(line: adsk.fusion.SketchLine, offset: float):
   deltaY = (line.endSketchPoint.geometry.x - line.startSketchPoint.geometry.x) * ratio
   return point(deltaX, deltaY)
 
+def sketchLineMidpoint(sketch: adsk.fusion.Sketch, refLine: adsk.fusion.SketchLine):
+  points = sketch.sketchPoints
+  constraints = sketch.geometricConstraints
+
+  anchorPoint = points.add(lineMidpoint(refLine))
+  constraints.addMidPoint(anchorPoint, refLine)
+  
+  return anchorPoint
+
 class SketchRectangleKwargs(TypedDict):
   offset: NotRequired[float]
 

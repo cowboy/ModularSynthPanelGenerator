@@ -1,5 +1,6 @@
 import adsk.core, adsk.fusion
 from ..generalUtils.persist_utils import Persistable
+from .. import fusionAddInUtils as futil
 
 app = adsk.core.Application.get()
 
@@ -7,11 +8,11 @@ app = adsk.core.Application.get()
 
 class PanelOptions(Persistable):
   __anchorPoints = {
-      "top-left": "Top Left",
-      "top-right": "Top Right",
-      "bottom-left": "Bottom Left",
-      "bottom-right": "Bottom Right",
+    f"{prefix.lower()}-{suffix.lower()}": "Center" if prefix == "Middle" and suffix == "Center" else f"{prefix} {suffix}"
+    for prefix in ["Top", "Middle", "Bottom"]
+    for suffix in ["Left", "Center", "Right"]
   }
+  
   __supportTypes = {
     "none": "No reinforcements",
     "solid": "Solid (good for larger blanks)",

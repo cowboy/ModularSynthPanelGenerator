@@ -1,7 +1,8 @@
 import adsk.core, adsk.fusion
-from ..generalUtils.sketch_utils import addPoints, constrainPointToPoint, constrainRectangleWidthHeight, lineMidpoint, midpoint, point, sketchRectangle, sketchSlot
+from ..generalUtils.sketch_utils import addPoints, constrainPointToPoint, constrainRectangleWidthHeight, lineMidpoint, midpoint, point, sketchLineMidpoint, sketchRectangle, sketchSlot
 from ..generalUtils.extrude_utils import extrude
 from .panel_options import PanelOptions
+from .. import fusionAddInUtils as futil
 
 app = adsk.core.Application.get()
 ui = app.userInterface
@@ -18,17 +19,28 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
   sketch.areDimensionsShown = True
 
   # Panel
-  match opts.anchorPoint:
-    case 'top-left':
-      panelStartPoint = point(0, -opts.panelLength)
-    case 'top-right':
-      panelStartPoint = point(-opts.width, -opts.panelLength)
-    case 'bottom-left':
-      panelStartPoint = point(0, 0)
-    case 'bottom-right':
-      panelStartPoint = point(-opts.width, 0)
+  anchorPointVertical, anchorPointHorizontal = opts.anchorPoint.split('-')
+  match anchorPointVertical:
+    case 'top':
+      panelStartY = -opts.panelLength
+    case 'middle':
+      panelStartY = -opts.panelLength / 2
+    case 'bottom':
+      panelStartY = 0
     case _:
       raise ValueError('Invalid anchorPoint value')
+
+  match anchorPointHorizontal:
+    case 'left':
+      panelStartX = 0
+    case 'center':
+      panelStartX = -opts.width / 2
+    case 'right':
+      panelStartX = -opts.width
+    case _:
+      raise ValueError('Invalid anchorPoint value')
+
+  panelStartPoint = point(panelStartX, panelStartY)
 
   rectangleLines = sketchRectangle(sketch, panelStartPoint, opts.width, opts.panelLength)
   constrainRectangleWidthHeight(sketch, rectangleLines)
@@ -44,13 +56,39 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
   bottomLeftPoint = panelBottomLine.startSketchPoint
   bottomRightPoint = panelBottomLine.endSketchPoint
 
+  def createPanelHorizontalLine(offset: float, isConstruction: bool):
+    line = lines.addByTwoPoints(
+      point(panelTopLine.startSketchPoint.geometry.x, offset),
+      point(panelTopLine.endSketchPoint.geometry.x, offset)
+    )
+    line.isConstruction = isConstruction
+    constraints.addHorizontal(line)
+    constraints.addCoincident(line.startSketchPoint, panelLeftLine)
+    constraints.addCoincident(line.endSketchPoint, panelRightLine)
+    return line
+
+  def createPanelMidLine():
+    line = createPanelHorizontalLine(lineMidpoint(panelLeftLine).y, True)
+    constraints.addMidPoint(line.startSketchPoint, panelLeftLine)
+    return line
+  
   match opts.anchorPoint:
     case 'top-left':
       anchorPoint = topLeftPoint
+    case 'top-center':
+      anchorPoint = sketchLineMidpoint(sketch, panelTopLine)
     case 'top-right':
       anchorPoint = topRightPoint
+    case 'middle-left':
+      anchorPoint = sketchLineMidpoint(sketch, panelLeftLine)
+    case 'middle-center':
+      anchorPoint = sketchLineMidpoint(sketch, createPanelMidLine())
+    case 'middle-right':
+      anchorPoint = sketchLineMidpoint(sketch, panelRightLine)
     case 'bottom-left':
       anchorPoint = bottomLeftPoint
+    case 'bottom-center':
+      anchorPoint = sketchLineMidpoint(sketch, panelBottomLine)
     case 'bottom-right':
       anchorPoint = bottomRightPoint
 
@@ -58,20 +96,13 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
 
   # Max extents for anything extruded from the bottom
   def addRefLine(panelLine: adsk.fusion.SketchLine, offset: float):
-    line = lines.addByTwoPoints(
-      addPoints(panelLine.startSketchPoint.geometry, point(0, offset)),
-      addPoints(panelLine.endSketchPoint.geometry, point(0, offset))
-    )
-    line.isConstruction = opts.supportType == 'none'
+    line = createPanelHorizontalLine(panelLine.startSketchPoint.geometry.y + offset, opts.supportType == 'none')
     dimensions.addDistanceDimension(
       panelLine.startSketchPoint,
       line.startSketchPoint,
       adsk.fusion.DimensionOrientations.VerticalDimensionOrientation, # type: ignore
-      addPoints(midpoint(line.startSketchPoint.geometry, panelLine.startSketchPoint.geometry), point(-0.2, 0))
+      midpoint(lineMidpoint(line), lineMidpoint(panelLine))
     )
-    constraints.addHorizontal(line)
-    constraints.addCoincident(line.startSketchPoint, panelLeftLine)
-    constraints.addCoincident(line.endSketchPoint, panelRightLine)
     return line
 
   railLength = (opts.panelLength - opts.maxPcbLength) / 2
