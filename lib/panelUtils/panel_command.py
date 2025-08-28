@@ -129,8 +129,9 @@ def generatePanel(args: adsk.core.CommandEventArgs):
 
         # group features in timeline
         count = panelComponent.sketches.count + panelComponent.features.count + panelComponent.constructionAxes.count + panelComponent.constructionPlanes.count
-        panelGroup = des.timeline.timelineGroups.add(newCmpOcc.timelineObject.index, newCmpOcc.timelineObject.index + count)
-        panelGroup.name = componentName
+        if count > 1:
+            panelGroup = des.timeline.timelineGroups.add(newCmpOcc.timelineObject.index, newCmpOcc.timelineObject.index + count)
+            panelGroup.name = componentName
     except Exception as err:
         args.executeFailed = True
         args.executeFailedMessage = getErrorMessage()
