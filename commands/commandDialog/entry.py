@@ -3,26 +3,27 @@ import os
 from ...lib import fusionAddInUtils as futil
 from ... import config
 from ...lib.panelUtils.panel_command import command_created, CMD_NAME, CMD_Description
+
 app = adsk.core.Application.get()
 ui = app.userInterface
 
 
 # TODO *** Specify the command identity information. ***
-CMD_ID = f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_cmdDialog'
+CMD_ID = f"{config.COMPANY_NAME}_{config.ADDIN_NAME}_cmdDialog"
 
 # Specify that the command will be promoted to the panel.
 IS_PROMOTED = True
 
 # TODO *** Define the location where the command button will be created. ***
-# This is done by specifying the workspace, the tab, and the panel, and the 
+# This is done by specifying the workspace, the tab, and the panel, and the
 # command it will be inserted beside. Not providing the command to position it
 # will insert it at the end.
-WORKSPACE_ID = 'FusionSolidEnvironment'
-PANEL_ID = 'SolidCreatePanel'
-COMMAND_BESIDE_ID = 'ScriptsManagerCommand'
+WORKSPACE_ID = "FusionSolidEnvironment"
+PANEL_ID = "SolidCreatePanel"
+COMMAND_BESIDE_ID = "ScriptsManagerCommand"
 
 # Resource location for command icons, here we assume a sub folder in this directory named "resources".
-ICON_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', '')
+ICON_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources", "")
 
 
 # Executed when add-in is run.
@@ -43,7 +44,7 @@ def start():
     # Create the button command control in the UI after the specified existing command.
     control = panel.controls.addCommand(cmd_def, COMMAND_BESIDE_ID, False)
 
-    # Specify if the command is promoted to the main toolbar. 
+    # Specify if the command is promoted to the main toolbar.
     control.isPromoted = IS_PROMOTED
 
 
