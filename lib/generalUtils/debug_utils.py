@@ -1,4 +1,3 @@
-from enum import Enum
 import adsk.core
 import adsk.fusion
 from ..fusionAddInUtils import log

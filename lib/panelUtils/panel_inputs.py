@@ -1,5 +1,6 @@
 import adsk.core
 from enum import Enum
+from typing import cast
 
 app = adsk.core.Application.get()
 ui = app.userInterface
@@ -83,7 +84,9 @@ class Inputs:
         message = 'For more information, <a href="https://github.com/cowboy/ModularSynthPanelGenerator">read the documentation.</a>'
         self.inputs.addTextBoxCommandInput("infoTextBox", "Information", message, 1, True)
 
-        heightDropdown = self.inputs.addDropDownCommandInput("formatType", "Panel format", adsk.core.DropDownStyles.TextListDropDownStyle)  # type: ignore
+        heightDropdown = self.inputs.addDropDownCommandInput(
+            "formatType", "Panel format", cast(adsk.core.DropDownStyles, adsk.core.DropDownStyles.TextListDropDownStyle)
+        )
         for name in self.options.formatNames:
             heightDropdown.listItems.add(name, name == self.options.formatName)
 
@@ -95,14 +98,18 @@ class Inputs:
             adsk.core.ValueInput.createByReal(self.options.panelHeight),
         )
 
-        anchorPointDropdown = self.inputs.addDropDownCommandInput("anchorPoint", "Anchor point", adsk.core.DropDownStyles.TextListDropDownStyle)  # type: ignore
+        anchorPointDropdown = self.inputs.addDropDownCommandInput(
+            "anchorPoint", "Anchor point", cast(adsk.core.DropDownStyles, adsk.core.DropDownStyles.TextListDropDownStyle)
+        )
         for name in self.options.anchorPointNames:
             anchorPointDropdown.listItems.add(name, name == self.options.anchorPointName)
 
         supportGroup = self.inputs.addGroupCommandInput("supportGroup", "Reinforcement")
         supportGroup.isExpanded = True
 
-        supportTypeDropdown = supportGroup.children.addDropDownCommandInput("supportType", "Type", adsk.core.DropDownStyles.TextListDropDownStyle)  # type: ignore
+        supportTypeDropdown = supportGroup.children.addDropDownCommandInput(
+            "supportType", "Type", cast(adsk.core.DropDownStyles, adsk.core.DropDownStyles.TextListDropDownStyle)
+        )
         for name in self.options.supportTypeNames:
             supportTypeDropdown.listItems.add(name, name == self.options.supportTypeName)
 

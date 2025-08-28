@@ -1,7 +1,7 @@
 import adsk.core
 import adsk.fusion
 import math
-from typing import TypedDict, NotRequired, Unpack
+from typing import TypedDict, NotRequired, Unpack, cast
 
 # Sketch Object
 # https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-2367ed6a-0ad1-4c8f-935e-b52738d1ce2b
@@ -137,13 +137,13 @@ def constrainRectangleWidthHeight(
     dimensions.addDistanceDimension(
         lines.item(0).startSketchPoint,
         lines.item(0).endSketchPoint,
-        adsk.fusion.DimensionOrientations.HorizontalDimensionOrientation,  # type: ignore
+        cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.HorizontalDimensionOrientation),
         lineMidpoint(lines.item(0), -labelOffset),
     )
     dimensions.addDistanceDimension(
         lines.item(1).startSketchPoint,
         lines.item(1).endSketchPoint,
-        adsk.fusion.DimensionOrientations.VerticalDimensionOrientation,  # type: ignore
+        cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.VerticalDimensionOrientation),
         lineMidpoint(lines.item(1), labelOffset),
     )
 
@@ -162,12 +162,12 @@ def constrainPointToPoint(
         dimensions.addDistanceDimension(
             referencePoint,
             sketchPoint,
-            adsk.fusion.DimensionOrientations.HorizontalDimensionOrientation,  # type: ignore
+            cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.HorizontalDimensionOrientation),
             midpoint(point(referencePoint.geometry.x, sketchPoint.geometry.y), sketchPoint.geometry),
         )
         dimensions.addDistanceDimension(
             referencePoint,
             sketchPoint,
-            adsk.fusion.DimensionOrientations.VerticalDimensionOrientation,  # type: ignore
+            cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.VerticalDimensionOrientation),
             midpoint(point(sketchPoint.geometry.x, referencePoint.geometry.y), sketchPoint.geometry),
         )

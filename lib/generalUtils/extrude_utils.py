@@ -1,7 +1,7 @@
 import adsk.core
 import adsk.fusion
 from .value_utils import getNormalizedValueInput
-from typing import TypedDict, NotRequired, Unpack
+from typing import TypedDict, NotRequired, Unpack, cast
 
 # Extrude Feature API Sample
 # https://help.autodesk.com/view/fusion360/ENU/?guid=GUID-CB1A2357-C8CD-474D-921E-992CA3621D04
@@ -22,7 +22,7 @@ def extrude(
     name: str,
     **kwargs: Unpack[ExtrudeKwargs],
 ):
-    operation = kwargs.get("operation", adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+    operation = kwargs.get("operation", cast(adsk.fusion.FeatureOperations, adsk.fusion.FeatureOperations.NewBodyFeatureOperation))
     offsetFrom = kwargs.get("offsetFrom")
 
     profiles = adsk.core.ObjectCollection.create()
@@ -32,9 +32,9 @@ def extrude(
     features = component.features
     extrudeFeatures = features.extrudeFeatures
 
-    extrudeInput = extrudeFeatures.createInput(profiles, operation)  # type: ignore
+    extrudeInput = extrudeFeatures.createInput(profiles, operation)
     extent = adsk.fusion.DistanceExtentDefinition.create(getNormalizedValueInput(height))
-    extrudeInput.setOneSideExtent(extent, adsk.fusion.ExtentDirections.PositiveExtentDirection)  # type: ignore
+    extrudeInput.setOneSideExtent(extent, cast(adsk.fusion.ExtentDirections, adsk.fusion.ExtentDirections.PositiveExtentDirection))
     if offsetFrom:
         extrudeInput.startExtent = adsk.fusion.FromEntityStartDefinition.create(offsetFrom, adsk.core.ValueInput.createByReal(0))
 

@@ -1,5 +1,6 @@
 import adsk.core
 import adsk.fusion
+from typing import cast
 from ..generalUtils.sketch_utils import (
     addPoints,
     constrainPointToPoint,
@@ -114,7 +115,7 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
         dimensions.addDistanceDimension(
             panelLine.startSketchPoint,
             line.startSketchPoint,
-            adsk.fusion.DimensionOrientations.VerticalDimensionOrientation,  # type: ignore
+            cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.VerticalDimensionOrientation),
             midpoint(lineMidpoint(line), lineMidpoint(panelLine)),
         )
         return line
@@ -126,7 +127,7 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
     dimensions.addDistanceDimension(
         topRefLine.startSketchPoint,
         bottomRefLine.startSketchPoint,
-        adsk.fusion.DimensionOrientations.VerticalDimensionOrientation,  # type: ignore
+        cast(adsk.fusion.DimensionOrientations, adsk.fusion.DimensionOrientations.VerticalDimensionOrientation),
         addPoints(
             midpoint(topRefLine.startSketchPoint.geometry, bottomRefLine.startSketchPoint.geometry),
             point(-0.2, 0),
@@ -190,8 +191,8 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
             -opts.supportSolidHeight,
             "Support",
             offsetFrom=body1.faces.item(5 + slotFaceCount),
-            operation=adsk.fusion.FeatureOperations.JoinFeatureOperation,
-        )  # type: ignore
+            operation=cast(adsk.fusion.FeatureOperations, adsk.fusion.FeatureOperations.JoinFeatureOperation),
+        )
     elif opts.supportType == "shell":
         body1 = extrude(component, sketch, [0, 1, 2, 3], -opts.panelHeight, "Panel")
         body = extrude(
@@ -201,8 +202,8 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
             -opts.supportShellHeight,
             "Support Shell",
             offsetFrom=body1.faces.item(5 + slotFaceCount),
-            operation=adsk.fusion.FeatureOperations.JoinFeatureOperation,
-        )  # type: ignore
+            operation=cast(adsk.fusion.FeatureOperations, adsk.fusion.FeatureOperations.JoinFeatureOperation),
+        )
     else:
         body = extrude(component, sketch, [0], -opts.panelHeight, "Panel")
 
