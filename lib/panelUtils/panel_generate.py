@@ -178,7 +178,8 @@ def generatePanelComponent(component: adsk.fusion.Component, opts: PanelOptions)
         slotCenterLine = sketchSlot(sketch, slotStartPoint, slotEndPoint, opts.slotDiameter)[0]
         constrainPointToPoint(sketch, slotCenterLine.startSketchPoint, referencePoint)
 
-    # return
+    if opts.sketchOnly:
+        return
 
     # Extrusions
     if opts.supportType == "solid":

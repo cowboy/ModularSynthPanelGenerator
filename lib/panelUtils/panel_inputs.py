@@ -21,6 +21,7 @@ class Inputs:
 
         self.widthInHp = adsk.core.IntegerSpinnerCommandInput.cast(self.inputs.itemById("widthInHp"))
         self.panelHeight = adsk.core.ValueCommandInput.cast(self.inputs.itemById("panelHeight"))
+        self.sketchOnly = adsk.core.BoolValueCommandInput.cast(self.inputs.itemById("sketchOnly"))
         self.supportSolidHeight = adsk.core.ValueCommandInput.cast(self.inputs.itemById("supportSolidHeight"))
         self.supportShellHeight = adsk.core.ValueCommandInput.cast(self.inputs.itemById("supportShellHeight"))
         self.supportShellWallThickness = adsk.core.ValueCommandInput.cast(self.inputs.itemById("supportShellWallThickness"))
@@ -31,15 +32,18 @@ class Inputs:
         self.updateUiState()
 
     def updateUiState(self):
+        sketchOnly = self.sketchOnly.value
         supportTypeName = self.supportType.selectedItem.name
         supportTypeId = self.options.getIdForSupportTypeName(supportTypeName)
-        self.supportSolidHeight.isVisible = supportTypeId == "solid"
-        self.supportShellHeight.isVisible = supportTypeId == "shell"
+        self.panelHeight.isVisible = not sketchOnly
+        self.supportSolidHeight.isVisible = supportTypeId == "solid" and not sketchOnly
+        self.supportShellHeight.isVisible = supportTypeId == "shell" and not sketchOnly
         self.supportShellWallThickness.isVisible = supportTypeId == "shell"
 
     def updateOptionsFromInputs(self):
         self.options.widthInHp = int(self.widthInHp.value)
         self.options.panelHeight = self.panelHeight.value
+        self.options.sketchOnly = self.sketchOnly.value
         self.options.supportSolidHeight = self.supportSolidHeight.value
         self.options.supportShellHeight = self.supportShellHeight.value
         self.options.supportShellWallThickness = self.supportShellWallThickness.value
@@ -50,6 +54,7 @@ class Inputs:
     def updateInputsFromOptions(self):
         self.widthInHp.value = self.options.widthInHp
         self.panelHeight.value = self.options.panelHeight
+        self.sketchOnly.value = self.options.sketchOnly
         self.supportSolidHeight.value = self.options.supportSolidHeight
         self.supportShellHeight.value = self.options.supportShellHeight
         self.supportShellWallThickness.value = self.options.supportShellWallThickness
@@ -104,6 +109,8 @@ class Inputs:
         )
         for name in self.options.anchorPointNames:
             anchorPointDropdown.listItems.add(name, name == self.options.anchorPointName)
+
+        self.inputs.addBoolValueInput("sketchOnly", "Sketch only", True, "", self.options.sketchOnly)
 
         supportGroup = self.inputs.addGroupCommandInput("supportGroup", "Reinforcement")
         supportGroup.isExpanded = True

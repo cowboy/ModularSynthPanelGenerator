@@ -52,6 +52,7 @@ class PanelOptions(Persistable):
             {
                 "formatId": "3u_eurorack",
                 "widthInHp": 6,
+                "sketchOnly": False,
                 "panelHeight": 0.2,
                 "anchorPoint": "top-left",
                 "supportType": "none",
@@ -62,6 +63,7 @@ class PanelOptions(Persistable):
         )
         self.formatId: str
         self.widthInHp: int
+        self.sketchOnly: bool
         self.panelHeight: float
         self.anchorPoint: str
         self.supportType: str
