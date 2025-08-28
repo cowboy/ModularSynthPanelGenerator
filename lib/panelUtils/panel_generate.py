@@ -14,7 +14,6 @@ from ..generalUtils.sketch_utils import (
 )
 from ..generalUtils.extrude_utils import extrude
 from .panel_options import PanelOptions
-from .. import fusionAddInUtils as futil
 
 app = adsk.core.Application.get()
 ui = app.userInterface

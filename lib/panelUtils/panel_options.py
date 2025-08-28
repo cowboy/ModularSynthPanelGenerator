@@ -1,7 +1,6 @@
 import adsk.core
 import adsk.fusion
 from ..generalUtils.persist_utils import Persistable
-from .. import fusionAddInUtils as futil
 
 app = adsk.core.Application.get()
 
