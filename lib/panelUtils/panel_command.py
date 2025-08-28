@@ -37,9 +37,7 @@ def log(msg):
     futil.log(f"[{CMD_NAME}] {str(msg)}")
 
 
-def getErrorMessage(
-    text="An unknown error occurred, please validate your inputs and try again",
-):
+def getErrorMessage(text="An unknown error occurred, please validate your inputs and try again"):
     stackTrace = traceback.format_exc()
     return f"{text}:<br>{stackTrace}"
 
@@ -47,8 +45,8 @@ def getErrorMessage(
 # Named for easy importing into commandDialog/entry.py
 def command_created(args: adsk.core.CommandCreatedEventArgs):
     log("Command Created Event")
-    global OPTIONS, INPUTS
     OPTIONS.restoreDefaults()
+    global INPUTS
     INPUTS = Inputs(args.command.commandInputs, OPTIONS)
 
     args.command.setDialogMinimumSize(400, 450)
@@ -91,8 +89,6 @@ def onCommandInputChanged(args: adsk.core.InputChangedEventArgs):
 # which allows you to verify that all of the inputs are valid and enables the OK button.
 def onCommandValidateInput(args: adsk.core.ValidateInputsEventArgs):
     log("Validate Input Event")
-    global INPUTS
-
     args.areInputsValid = INPUTS.isValid
 
     if INPUTS.isValid:
@@ -107,7 +103,6 @@ def onCommandDestroy(args: adsk.core.CommandEventArgs):
 
 
 def generatePanel(args: adsk.core.CommandEventArgs):
-    global OPTIONS
     try:
         des = adsk.fusion.Design.cast(app.activeProduct)
         if des.designType == 0:
