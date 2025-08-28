@@ -71,6 +71,7 @@ class Inputs:
             case Actions.RESTORE_DEFAULTS.value:
                 self.options.restoreDefaults()
                 self.updateInputsFromOptions()
+                self.updateUiState()
             case Actions.SAVE_DEFAULTS.value:
                 if not self.options.saveDefaults():
                     ui.messageBox(f"Unable to save defaults file {self.options.persistFile}. Is it writable?", "Warning")
