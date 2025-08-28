@@ -94,7 +94,7 @@ class Inputs:
         self.inputs.addIntegerSpinnerCommandInput("widthInHp", "Panel width in HP", 2, 9000, 1, self.options.widthInHp)
         self.inputs.addValueInput(
             "panelHeight",
-            "Panel thickness",
+            "Panel height",
             defaultLengthUnits,
             adsk.core.ValueInput.createByReal(self.options.panelHeight),
         )
@@ -116,13 +116,13 @@ class Inputs:
 
         supportGroup.children.addValueInput(
             "supportSolidHeight",
-            "Support thickness",
+            "Support height",
             defaultLengthUnits,
             adsk.core.ValueInput.createByReal(self.options.supportSolidHeight),
         )
         supportGroup.children.addValueInput(
             "supportShellHeight",
-            "Shell thickness",
+            "Shell height",
             defaultLengthUnits,
             adsk.core.ValueInput.createByReal(self.options.supportShellHeight),
         )
